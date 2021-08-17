@@ -36,13 +36,22 @@ function getTotalBooksCount(books) {
   }
   function getMostPopularAuthors(books, authors) {
     // console.log(getMostPopularAuthors(books, authors))
-    return books.map(book => {
+    let popularAuthors = books.map(book => {
       const { name: {first, last}} = authors.find(author => author.id === book.authorId)
       return {
         name: `${first} ${last}`,
         count: book.borrows.length
       }
-    }).sort((a, b) => b.count - a.count).slice(0, 5)
+    });
+    popularAuthors.sort((a, b) => b.count - a.count);
+    deleteExtraObjects(popularAuthors,5);
+    return popularAuthors;
+  }
+  
+  function deleteExtraObjects(arr, num) {
+    while(arr.length > num) {
+      arr.pop();
+    }
   }
   // function getMostPopularAuthors(books, authors) 
   // {   
@@ -66,5 +75,6 @@ function getTotalBooksCount(books) {
     getMostCommonGenres,
     getMostPopularBooks,
     getMostPopularAuthors,
+   deleteExtraObjects
   };
   
